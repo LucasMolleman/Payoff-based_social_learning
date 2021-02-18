@@ -5,11 +5,11 @@ basePayY<-1;
 basePayoffs<-c(basePayX, basePayY)
 
 # noise associated with realised payoffs
-errorSD<-1;
+errorSD<-0.5;
 
 # simulation parameters
 numberOfRounds<-10;
-numberOfIndividuals<-1000;
+numberOfIndividuals<-10000;
 
 # proportion of population with 'type A' (for type B, the base payoffs of X and Y are reversed)
 proportionTypeA<-0.9;
@@ -31,10 +31,10 @@ outcomeMatrix<-matrix(nrow=0, ncol=4)
 
 
 ### global plotting parameters
-par(mfrow=c(3,3), mar=c(4,4,2,2))
+#par(mfrow=c(3,3), mar=c(4,4,2,2))
 
 # explore 3 relative proportions of type A
-for (proportionTypeA in c(0.5, 0.51, 0.75, 0.9, 0.99)){
+for (proportionTypeA in c(0.5, 0.55, 0.75, 0.95, 0.99)){
 	# explore 3 levels of discounting
 	for (delta in 0:10/10){
 
@@ -197,6 +197,8 @@ names(outcomeMatrix)<-c('majority', 'delta', 'payMajority', 'payMinority')
 row.names(outcomeMatrix)<-c()
 outcomeMatrix
 #dev.off()
+
+### plot
 par(mfrow=c(1,5), las=1, cex.lab=1.5, cex.axis=1.5)
 for (m in unique(outcomeMatrix$majority)){
 	plot(0, type='n', xlim=c(0,1), ylim=c(0.4, 1), xlab='Weight of social info (Delta)', ylab='Optimality', main=paste('Frac type A:', m))
@@ -209,3 +211,7 @@ for (m in unique(outcomeMatrix$majority)){
 	arrows(-1, 0.5, 2, 0.5, code=0, lty=2)
 	arrows(-1, 1, 2, 1, code=0, lty=2)
 }
+
+legend('topright', c('majority', 'minority'), pch=c(15,16), col=c('green', 'red'), cex=1.5, bg='white')
+text(0.5, 0.47, paste('sd=0.5, 10 rounds, N=10,000'), cex=1.2)
+text(0.5, 0.42, paste('sensitivity=3, lambda=0.2'), cex=1.2)
